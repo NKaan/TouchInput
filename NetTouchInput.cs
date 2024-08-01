@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-// Enum Tanýmý
+// Enum TanÃ½mÃ½
 public enum SwipeType
 {
     RightToLeft,
@@ -11,7 +11,7 @@ public enum SwipeType
     UpToDown
 }
 
-// UnityEvent Tanýmý
+// UnityEvent TanÃ½mÃ½
 [System.Serializable]
 public class SwipeEvent : UnityEvent<SwipeType, float> { }
 
@@ -19,19 +19,19 @@ public class NetTouchInput : MonoBehaviour
 {
     [Header("Swipe Settings")]
     [SerializeField] private float tapRange = 10f; // Maksimum dokunma mesafesi
-    [SerializeField] private float horizontalEdgeThresholdPercentage = 10f; // Ekran kenarýna minimum mesafe yatay olarak (yüzde)
-    [SerializeField] private float verticalEdgeThresholdPercentage = 10f; // Ekran kenarýna minimum mesafe dikey olarak (yüzde)
-    [SerializeField] private float swipeTimeThreshold = 0.3f; // Çift kaydýrma algýlamak için zaman penceresi
-    [SerializeField] private float longPressThreshold = 1f; // Uzun basmayý algýlamak için süre
-    [SerializeField] private bool calculateSwipeOnEnd = true; // Inspector üzerinden ayarlanabilir
+    [SerializeField] private float horizontalEdgeThresholdPercentage = 10f; // Ekran kenarÃ½na minimum mesafe yatay olarak (yÃ¼zde)
+    [SerializeField] private float verticalEdgeThresholdPercentage = 10f; // Ekran kenarÃ½na minimum mesafe dikey olarak (yÃ¼zde)
+    [SerializeField] private float swipeTimeThreshold = 0.3f; // Ã‡ift kaydÃ½rma algÃ½lamak iÃ§in zaman penceresi
+    [SerializeField] private float longPressThreshold = 1f; // Uzun basmayÃ½ algÃ½lamak iÃ§in sÃ¼re
+    [SerializeField] private bool calculateSwipeOnEnd = true; // Inspector Ã¼zerinden ayarlanabilir
 
     [Header("Swipe Events")]
     public UnityEvent<float> OnRightToLeftSwipe;
     public UnityEvent<float> OnLeftToRightSwipe;
     public UnityEvent<float> OnDownToUpSwipe;
     public UnityEvent<float> OnUpToDownSwipe;
-    public UnityEvent<SwipeType> OnDoubleSwipe; // Çift kaydýrma olayý
-    public SwipeEvent OnSwipeDetected; // SwipeType ve yüzde ile olay
+    public UnityEvent<SwipeType> OnDoubleSwipe; // Ã‡ift kaydÃ½rma olayÃ½
+    public SwipeEvent OnSwipeDetected; // SwipeType ve yÃ¼zde ile olay
 
     [Header("Tap Events")]
     public UnityEvent OnSingleTap;
@@ -56,7 +56,7 @@ public class NetTouchInput : MonoBehaviour
 
     private int tapCount = 0;
     private float lastTapTime = -1f;
-    private float tapTimeThreshold = 0.23f; // Birden fazla dokunmayý algýlamak için zaman penceresi
+    private float tapTimeThreshold = 0.23f; // Birden fazla dokunmayÃ½ algÃ½lamak iÃ§in zaman penceresi
 
     private bool longPressDetected = false;
     private float touchStartTime = -1f;
@@ -72,7 +72,7 @@ public class NetTouchInput : MonoBehaviour
             HandleMouseInput();
         }
 
-        // Multi-touch olaylarýný kontrol edin ve eventleri tetikleyin
+        // Multi-touch olaylarÃ½nÃ½ kontrol edin ve eventleri tetikleyin
         CheckMultiTouchEvents();
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -83,7 +83,7 @@ public class NetTouchInput : MonoBehaviour
 
     private void CheckMultiTouchEvents()
     {
-        // Ýki parmak kaydýrma
+        // Ãki parmak kaydÃ½rma
         if (Input.touchCount == 2)
         {
             SwipeType swipeType = DetermineSwipeType(currentPosition - startTouchPosition);
@@ -96,7 +96,7 @@ public class NetTouchInput : MonoBehaviour
             }
         }
 
-        // Üç parmak kaydýrma
+        // ÃœÃ§ parmak kaydÃ½rma
         if (Input.touchCount == 3)
         {
             SwipeType swipeType = DetermineSwipeType(currentPosition - startTouchPosition);
@@ -109,25 +109,25 @@ public class NetTouchInput : MonoBehaviour
             }
         }
 
-        // Ýki parmak dokunma
+        // Ãki parmak dokunma
         if (Input.touchCount == 2 && tapCount == 1)
         {
             OnTwoFingerTap?.Invoke();
         }
 
-        // Üç parmak dokunma
+        // ÃœÃ§ parmak dokunma
         if (Input.touchCount == 3 && tapCount == 1)
         {
             OnThreeFingerTap?.Invoke();
         }
 
-        // Ýki parmak uzun basma
+        // Ãki parmak uzun basma
         if (Input.touchCount == 2 && LongPress(longPressThreshold))
         {
             OnTwoFingerLongPress?.Invoke();
         }
 
-        // Üç parmak uzun basma
+        // ÃœÃ§ parmak uzun basma
         if (Input.touchCount == 3 && LongPress(longPressThreshold))
         {
             OnThreeFingerLongPress?.Invoke();
@@ -154,7 +154,7 @@ public class NetTouchInput : MonoBehaviour
                 }
                 else
                 {
-                    // Kaydýrma iþlemi için geçici bir iþaretçi ayarla
+                    // KaydÃ½rma iÃ¾lemi iÃ§in geÃ§ici bir iÃ¾aretÃ§i ayarla
                     stopTouch = false;
                 }
                 if (Time.time - touchStartTime >= longPressThreshold && !longPressDetected)
@@ -193,7 +193,7 @@ public class NetTouchInput : MonoBehaviour
             }
             else
             {
-                // Kaydýrma iþlemi için geçici bir iþaretçi ayarla
+                // KaydÃ½rma iÃ¾lemi iÃ§in geÃ§ici bir iÃ¾aretÃ§i ayarla
                 stopTouch = false;
             }
             if (Time.time - touchStartTime >= longPressThreshold && !longPressDetected)
@@ -501,7 +501,7 @@ public class NetTouchInput : MonoBehaviour
                 _instance = FindObjectOfType<NetTouchInput>();
                 if (_instance == null)
                 {
-                    GameObject obj = new GameObject("SwipeBackHandler");
+                    GameObject obj = new GameObject("NetTouchInput");
                     _instance = obj.AddComponent<NetTouchInput>();
                 }
             }
