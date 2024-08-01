@@ -20,8 +20,28 @@
    - `swipeTimeThreshold`: Time window to detect double swipes.
    - `longPressThreshold`: Duration required to detect a long press.
    - `calculateSwipeOnEnd`: If `true`, swipe detection is calculated when touch ends; if `false`, swipe detection is calculated during touch.
+  
+3. **Static Methods
+   SingleTap(): Checks if a single tap occurred.
+   DoubleTap(): Checks if a double tap occurred.
+   TripleTap(): Checks if a triple tap occurred.
+   LongPress(): Checks if a long press occurred.
+   LongPress(float duration): Checks if a long press occurred for a specified duration.
+   Swipe(SwipeType swipeType): Checks if a specific swipe type occurred.
+   TwoFingerSwipe(SwipeType swipeType): Checks if a two-finger swipe of a specific type occurred.
+   ThreeFingerSwipe(SwipeType swipeType): Checks if a three-finger swipe of a specific type occurred.
+   TwoFingerTap(): Checks if a two-finger tap occurred.
+   ThreeFingerTap(): Checks if a three-finger tap occurred.
+   TwoFingerLongPress(float duration): Checks if a two-finger long press occurred for a specified duration.
+   ThreeFingerLongPress(float duration): Checks if a three-finger long press occurred for a specified duration.
+   Instance Methods
+   Update(): Checks for input each frame and processes it.
+   HandleTouch(Touch touch): Handles touch input events.
+   HandleMouseInput(): Handles mouse input events.
+   DetectSwipe(): Detects and triggers swipe events.
+   ProcessTap(): Processes tap input and triggers appropriate events.
 
-3. **Subscribe to Events**: Use Unity's event system to subscribe to the provided events in your scripts. For example:
+4. **Subscribe to Events**: Use Unity's event system to subscribe to the provided events in your scripts. For example:
 
    ```csharp
    public class Example : MonoBehaviour
@@ -65,27 +85,7 @@
        }
    }
 
-   
-Methods
-Static Methods
-SingleTap(): Checks if a single tap occurred.
-DoubleTap(): Checks if a double tap occurred.
-TripleTap(): Checks if a triple tap occurred.
-LongPress(): Checks if a long press occurred.
-LongPress(float duration): Checks if a long press occurred for a specified duration.
-Swipe(SwipeType swipeType): Checks if a specific swipe type occurred.
-TwoFingerSwipe(SwipeType swipeType): Checks if a two-finger swipe of a specific type occurred.
-ThreeFingerSwipe(SwipeType swipeType): Checks if a three-finger swipe of a specific type occurred.
-TwoFingerTap(): Checks if a two-finger tap occurred.
-ThreeFingerTap(): Checks if a three-finger tap occurred.
-TwoFingerLongPress(float duration): Checks if a two-finger long press occurred for a specified duration.
-ThreeFingerLongPress(float duration): Checks if a three-finger long press occurred for a specified duration.
-Instance Methods
-Update(): Checks for input each frame and processes it.
-HandleTouch(Touch touch): Handles touch input events.
-HandleMouseInput(): Handles mouse input events.
-DetectSwipe(): Detects and triggers swipe events.
-ProcessTap(): Processes tap input and triggers appropriate events.
+'''
 Notes
 Ensure that NetTouchInput is attached to an active GameObject in your scene for proper functionality.
 Adjust event listeners and settings as needed to fit your application's requirements.
