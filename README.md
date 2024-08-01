@@ -1,99 +1,93 @@
 # NetTouchInput
 
-`NetTouchInput` is a Unity component designed to handle touch and mouse input, including swipe detection, multi-touch events, and tap events. This script supports various touch and swipe functionalities, providing flexibility for input management in Unity applications.
+`NetTouchInput` Unity için bir dokunma ve kaydırma işleyici sınıfıdır. Bu sınıf, farklı dokunma türlerini ve kaydırmaları algılamak ve bunlara tepki vermek için çeşitli özellikler ve olaylar sağlar.
 
-## Features
+## Özellikler
 
-- **Swipe Detection**: Detects swipes in four directions (RightToLeft, LeftToRight, DownToUp, UpToDown) with customizable thresholds.
-- **Tap Detection**: Supports single, double, and triple tap detection with customizable time thresholds.
-- **Long Press Detection**: Detects long presses with adjustable duration.
-- **Multi-Touch Support**: Handles events for two-finger and three-finger gestures, including swipe, tap, and long press.
+- Tek, çift ve üçlü dokunma algılama
+- Kaydırma yönlerini ve yüzdelerini algılama
+- Uzun basma algılama
+- Multi-touch kaydırma ve dokunma destekleri
 
-## Getting Started
+## Kurulum
 
-1. **Add the Component**: Attach the `NetTouchInput` script to any GameObject in your Unity scene.
+1. Unity projenize `NetTouchInput` script dosyasını ekleyin.
+2. `NetTouchInput` bileşenini bir GameObject'e ekleyin.
 
-2. **Configure Settings**: Adjust the settings in the Inspector window:
-   - `tapRange`: Maximum distance to detect a tap.
-   - `horizontalEdgeThresholdPercentage`: Minimum horizontal distance from screen edges for swipe detection.
-   - `verticalEdgeThresholdPercentage`: Minimum vertical distance from screen edges for swipe detection.
-   - `swipeTimeThreshold`: Time window to detect double swipes.
-   - `longPressThreshold`: Duration required to detect a long press.
-   - `calculateSwipeOnEnd`: If `true`, swipe detection is calculated when touch ends; if `false`, swipe detection is calculated during touch.
-  
-3. **Static Methods
-   SingleTap(): Checks if a single tap occurred.
-   DoubleTap(): Checks if a double tap occurred.
-   TripleTap(): Checks if a triple tap occurred.
-   LongPress(): Checks if a long press occurred.
-   LongPress(float duration): Checks if a long press occurred for a specified duration.
-   Swipe(SwipeType swipeType): Checks if a specific swipe type occurred.
-   TwoFingerSwipe(SwipeType swipeType): Checks if a two-finger swipe of a specific type occurred.
-   ThreeFingerSwipe(SwipeType swipeType): Checks if a three-finger swipe of a specific type occurred.
-   TwoFingerTap(): Checks if a two-finger tap occurred.
-   ThreeFingerTap(): Checks if a three-finger tap occurred.
-   TwoFingerLongPress(float duration): Checks if a two-finger long press occurred for a specified duration.
-   ThreeFingerLongPress(float duration): Checks if a three-finger long press occurred for a specified duration.
-   Instance Methods
-   Update(): Checks for input each frame and processes it.
-   HandleTouch(Touch touch): Handles touch input events.
-   HandleMouseInput(): Handles mouse input events.
-   DetectSwipe(): Detects and triggers swipe events.
-   ProcessTap(): Processes tap input and triggers appropriate events.
+## Kullanım
 
-4. **Subscribe to Events**: Use Unity's event system to subscribe to the provided events in your scripts. For example:
+### Olaylar
 
-   ```csharp
-   public class Example : MonoBehaviour
-   {
-       public NetTouchInput netTouchInput;
+`NetTouchInput` sınıfı, çeşitli dokunma ve kaydırma olaylarını tetikler:
 
-       private void Start()
-       {
-           netTouchInput.OnSingleTap.AddListener(HandleSingleTap);
-           netTouchInput.OnDoubleTap.AddListener(HandleDoubleTap);
-           netTouchInput.OnTripleTap.AddListener(HandleTripleTap);
-           netTouchInput.OnLongPress.AddListener(HandleLongPress);
-       }
+- **Swipe Events**
+  - `OnRightToLeftSwipe(float swipePercentage)`: Sağdan sola kaydırma algılandığında tetiklenir.
+  - `OnLeftToRightSwipe(float swipePercentage)`: Soldan sağa kaydırma algılandığında tetiklenir.
+  - `OnDownToUpSwipe(float swipePercentage)`: Aşağıdan yukarıya kaydırma algılandığında tetiklenir.
+  - `OnUpToDownSwipe(float swipePercentage)`: Yukarıdan aşağıya kaydırma algılandığında tetiklenir.
+  - `OnDoubleSwipe(SwipeType swipeType)`: Çift kaydırma algılandığında tetiklenir.
+  - `OnSwipeDetected(SwipeType swipeType, float swipePercentage)`: Kaydırma algılandığında tetiklenir.
 
-        void Update()
-        {
-            if (NetTouchInput.SingleTap())
-            {
-                Debug.Log("Single tap detected.");
-            }
-        }
+- **Tap Events**
+  - `OnSingleTap()`: Tek dokunma algılandığında tetiklenir.
+  - `OnDoubleTap()`: Çift dokunma algılandığında tetiklenir.
+  - `OnTripleTap()`: Üçlü dokunma algılandığında tetiklenir.
+  - `OnLongPress()`: Uzun basma algılandığında tetiklenir.
 
-       private void HandleSingleTap()
-       {
-           Debug.Log("Single tap detected.");
-       }
+- **Multi-Touch Events**
+  - `OnTwoFingerSwipe(SwipeType swipeType)`: İki parmakla kaydırma algılandığında tetiklenir.
+  - `OnThreeFingerSwipe(SwipeType swipeType)`: Üç parmakla kaydırma algılandığında tetiklenir.
+  - `OnTwoFingerTap()`: İki parmakla dokunma algılandığında tetiklenir.
+  - `OnThreeFingerTap()`: Üç parmakla dokunma algılandığında tetiklenir.
+  - `OnTwoFingerLongPress()`: İki parmakla uzun basma algılandığında tetiklenir.
+  - `OnThreeFingerLongPress()`: Üç parmakla uzun basma algılandığında tetiklenir.
 
-       private void HandleDoubleTap()
-       {
-           Debug.Log("Double tap detected.");
-       }
+### Statik Metodlar
 
-       private void HandleTripleTap()
-       {
-           Debug.Log("Triple tap detected.");
-       }
+Sınıfın statik metodları, çeşitli dokunma ve kaydırma durumlarını kontrol etmek için kullanılabilir:
 
-       private void HandleLongPress()
-       {
-           Debug.Log("Long press detected.");
-       }
-   }
+- **SingleTap()**: Tek dokunma algılandı mı?
+- **DoubleTap()**: Çift dokunma algılandı mı?
+- **TripleTap()**: Üçlü dokunma algılandı mı?
+- **LongPress()**: Uzun basma algılandı mı?
+- **LongPress(float duration)**: Belirtilen sürede uzun basma algılandı mı?
+- **Swipe(SwipeType swipeType)**: Belirtilen kaydırma türü algılandı mı?
+- **TwoFingerSwipe(SwipeType swipeType)**: İki parmakla belirtilen kaydırma türü algılandı mı?
+- **ThreeFingerSwipe(SwipeType swipeType)**: Üç parmakla belirtilen kaydırma türü algılandı mı?
+- **TwoFingerTap()**: İki parmakla dokunma algılandı mı?
+- **ThreeFingerTap()**: Üç parmakla dokunma algılandı mı?
+- **TwoFingerLongPress(float duration)**: İki parmakla belirtilen sürede uzun basma algılandı mı?
+- **ThreeFingerLongPress(float duration)**: Üç parmakla belirtilen sürede uzun basma algılandı mı?
 
-'''
-Notes
-Ensure that NetTouchInput is attached to an active GameObject in your scene for proper functionality.
-Adjust event listeners and settings as needed to fit your application's requirements.
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
+## Örnekler
 
-Contributing
-Feel free to submit issues, feature requests, or pull requests. Contributions are welcome!
+### Olay Kullanımı
 
-Contact
-For questions or feedback, please contact numankaankaratas@gmail.com
+```csharp
+public class Example : MonoBehaviour
+{
+    [SerializeField] private NetTouchInput netTouchInput;
+
+    void Start()
+    {
+        netTouchInput.OnSingleTap.AddListener(OnSingleTap);
+        netTouchInput.OnDoubleTap.AddListener(OnDoubleTap);
+        netTouchInput.OnSwipeDetected.AddListener(OnSwipeDetected);
+    }
+
+    private void OnSingleTap()
+    {
+        Debug.Log("Single Tap Detected");
+    }
+
+    private void OnDoubleTap()
+    {
+        Debug.Log("Double Tap Detected");
+    }
+
+    private void OnSwipeDetected(SwipeType swipeType, float swipePercentage)
+    {
+        Debug.Log($"Swipe Detected: {swipeType} with percentage {swipePercentage}");
+    }
+}
+
