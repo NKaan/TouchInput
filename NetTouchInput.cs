@@ -18,34 +18,76 @@ public class SwipeEvent : UnityEvent<SwipeType, float> { }
 public class NetTouchInput : MonoBehaviour
 {
     [Header("Swipe Settings")]
-    [SerializeField] private float horizontalTapRangePercentage = 10f; // Yüzde olarak, örneğin %10
-    [SerializeField] private float verticalTapRangePercentage = 10f; // Yüzde olarak, örneğin %10
-    [SerializeField] private float horizontalEdgeThresholdPercentage = 10f; // Ekran kenarına minimum mesafe yatay olarak (yüzde)
-    [SerializeField] private float verticalEdgeThresholdPercentage = 10f; // Ekran kenarına minimum mesafe dikey olarak (yüzde)
-    [SerializeField] private float swipeTimeThreshold = 0.3f; // Çift kaydırma algılamak için zaman penceresi
-    [SerializeField] private float longPressThreshold = .7f; // Uzun basmayı algılamak için süre
-    [SerializeField] private bool calculateSwipeOnEnd = true;
+    [SerializeField, Tooltip("Yüzde olarak, örneğin %10. Yatay kaydırmalarda kaydırma aralığı.")]
+    private float horizontalTapRangePercentage = 10f;
+
+    [SerializeField, Tooltip("Yüzde olarak, örneğin %10. Dikey kaydırmalarda kaydırma aralığı.")]
+    private float verticalTapRangePercentage = 10f;
+
+    [SerializeField, Tooltip("Ekran kenarına minimum mesafe yatay olarak (yüzde). Kaydırma kenarından başlamadan önce bu mesafeye dikkat edilir.")]
+    private float horizontalEdgeThresholdPercentage = 10f;
+
+    [SerializeField, Tooltip("Ekran kenarına minimum mesafe dikey olarak (yüzde). Kaydırma kenarından başlamadan önce bu mesafeye dikkat edilir.")]
+    private float verticalEdgeThresholdPercentage = 10f;
+
+    [SerializeField, Tooltip("Çift kaydırma algılamak için gereken maksimum süre (saniye).")]
+    private float swipeTimeThreshold = 0.3f;
+
+    [SerializeField, Tooltip("Uzun basmayı algılamak için gereken süre (saniye).")]
+    private float longPressThreshold = .7f;
+
+    [SerializeField, Tooltip("Kaydırma hesaplamalarının parmak kaldırıldıktan sonra mı yapılacağı. Eğer true ise, kaydırma işlemleri parmak kaldırıldıktan sonra hesaplanır.")]
+    private bool calculateSwipeOnEnd = true;
 
     [Header("Swipe Events")]
+    [Tooltip("Yatay kaydırma: Sağdan sola kaydırma olayı. Swipe yüzdesi ile tetiklenir.")]
     public UnityEvent<float> OnRightToLeftSwipe;
+
+    [Tooltip("Yatay kaydırma: Soldan sağa kaydırma olayı. Swipe yüzdesi ile tetiklenir.")]
     public UnityEvent<float> OnLeftToRightSwipe;
+
+    [Tooltip("Dikey kaydırma: Aşağıdan yukarı kaydırma olayı. Swipe yüzdesi ile tetiklenir.")]
     public UnityEvent<float> OnDownToUpSwipe;
+
+    [Tooltip("Dikey kaydırma: Yukarıdan aşağı kaydırma olayı. Swipe yüzdesi ile tetiklenir.")]
     public UnityEvent<float> OnUpToDownSwipe;
-    public UnityEvent<SwipeType> OnDoubleSwipe; // Çift kaydırma olayı
-    public SwipeEvent OnSwipeDetected; // SwipeType ve yüzde ile olay
+
+    [Tooltip("Çift kaydırma olayı. Swipe türüne göre tetiklenir.")]
+    public UnityEvent<SwipeType> OnDoubleSwipe;
+
+    [Tooltip("Kaydırma algılandığında olay. Swipe türü ve swipe yüzdesi ile tetiklenir.")]
+    public SwipeEvent OnSwipeDetected;
 
     [Header("Tap Events")]
+    [Tooltip("Tek dokunma olayı. Tek bir parmak ile yapılan dokunma için tetiklenir.")]
     public UnityEvent OnSingleTap;
+
+    [Tooltip("Çift dokunma olayı. İki parmak ile yapılan dokunma için tetiklenir.")]
     public UnityEvent OnDoubleTap;
+
+    [Tooltip("Üçlü dokunma olayı. Üç parmak ile yapılan dokunma için tetiklenir.")]
     public UnityEvent OnTripleTap;
+
+    [Tooltip("Uzun basma olayı. Uzun süreli dokunma için tetiklenir.")]
     public UnityEvent OnLongPress;
 
     [Header("Multi-Touch Events")]
+    [Tooltip("İki parmak ile kaydırma olayı. İki parmakla yapılan kaydırma için tetiklenir.")]
     public UnityEvent<SwipeType> OnTwoFingerSwipe;
+
+    [Tooltip("Üç parmak ile kaydırma olayı. Üç parmakla yapılan kaydırma için tetiklenir.")]
     public UnityEvent<SwipeType> OnThreeFingerSwipe;
+
+    [Tooltip("İki parmak ile tek dokunma olayı. İki parmakla yapılan tek dokunma için tetiklenir.")]
     public UnityEvent OnTwoFingerTap;
+
+    [Tooltip("Üç parmak ile tek dokunma olayı. Üç parmakla yapılan tek dokunma için tetiklenir.")]
     public UnityEvent OnThreeFingerTap;
+
+    [Tooltip("İki parmak ile uzun basma olayı. İki parmakla yapılan uzun basma için tetiklenir.")]
     public UnityEvent OnTwoFingerLongPress;
+
+    [Tooltip("Üç parmak ile uzun basma olayı. Üç parmakla yapılan uzun basma için tetiklenir.")]
     public UnityEvent OnThreeFingerLongPress;
 
     private Vector2 startTouchPosition;
@@ -57,10 +99,11 @@ public class NetTouchInput : MonoBehaviour
 
     private int tapCount = 0;
     private float lastTapTime = -1f;
-    private float tapTimeThreshold = 0.23f; // Birden fazla dokunmayı algılamak için zaman penceresi
+    private float tapTimeThreshold = 0.23f; // Birden fazla dokunmayı algılamak için gereken maksimum süre (saniye)
 
     private bool longPressDetected = false;
     private float touchStartTime = -1f;
+
 
     void Update()
     {
