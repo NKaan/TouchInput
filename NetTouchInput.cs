@@ -18,91 +18,91 @@ public class SwipeEvent : UnityEvent<SwipeType, float> { }
 public class NetTouchInput : MonoBehaviour
 {
     [Header("Swipe Settings")]
-    [SerializeField, Tooltip("Yüzde olarak, örneğin %10. Yatay kaydırmalarda kaydırma aralığı.")]
-    private float horizontalTapRangePercentage = 10f;
+[SerializeField, Tooltip("Yüzde olarak, örneğin %10. Yatay kaydırmalarda kaydırma aralığı.")]
+private float horizontalTapRangePercentage = 10f; 
 
-    [SerializeField, Tooltip("Yüzde olarak, örneğin %10. Dikey kaydırmalarda kaydırma aralığı.")]
-    private float verticalTapRangePercentage = 10f;
+[SerializeField, Tooltip("Yüzde olarak, örneğin %10. Dikey kaydırmalarda kaydırma aralığı.")]
+private float verticalTapRangePercentage = 10f; 
 
-    [SerializeField, Tooltip("Ekran kenarına minimum mesafe yatay olarak (yüzde). Kaydırma kenarından başlamadan önce bu mesafeye dikkat edilir.")]
-    private float horizontalEdgeThresholdPercentage = 10f;
+[SerializeField, Tooltip("Ekran kenarına minimum mesafe yatay olarak (yüzde). Kaydırma kenarından başlamadan önce bu mesafeye dikkat edilir.")]
+private float horizontalEdgeThresholdPercentage = 10f; 
 
-    [SerializeField, Tooltip("Ekran kenarına minimum mesafe dikey olarak (yüzde). Kaydırma kenarından başlamadan önce bu mesafeye dikkat edilir.")]
-    private float verticalEdgeThresholdPercentage = 10f;
+[SerializeField, Tooltip("Ekran kenarına minimum mesafe dikey olarak (yüzde). Kaydırma kenarından başlamadan önce bu mesafeye dikkat edilir.")]
+private float verticalEdgeThresholdPercentage = 10f; 
 
-    [SerializeField, Tooltip("Çift kaydırma algılamak için gereken maksimum süre (saniye).")]
-    private float swipeTimeThreshold = 0.3f;
+[SerializeField, Tooltip("Çift kaydırma algılamak için gereken maksimum süre (saniye).")]
+private float swipeTimeThreshold = 0.3f; 
 
-    [SerializeField, Tooltip("Uzun basmayı algılamak için gereken süre (saniye).")]
-    private float longPressThreshold = .7f;
+[SerializeField, Tooltip("Uzun basmayı algılamak için gereken süre (saniye).")]
+private float longPressThreshold = .7f; 
 
-    [SerializeField, Tooltip("Kaydırma hesaplamalarının parmak kaldırıldıktan sonra mı yapılacağı. Eğer true ise, kaydırma işlemleri parmak kaldırıldıktan sonra hesaplanır.")]
-    private bool calculateSwipeOnEnd = true;
+[SerializeField, Tooltip("Kaydırma hesaplamalarının parmak kaldırıldıktan sonra mı yapılacağı. Eğer true ise, kaydırma işlemleri parmak kaldırıldıktan sonra hesaplanır.")]
+private bool calculateSwipeOnEnd = true;
 
-    [Header("Swipe Events")]
-    [Tooltip("Yatay kaydırma: Sağdan sola kaydırma olayı. Swipe yüzdesi ile tetiklenir.")]
-    public UnityEvent<float> OnRightToLeftSwipe;
+[Header("Swipe Events")]
+[Tooltip("Yatay kaydırma: Sağdan sola kaydırma olayı. Swipe yüzdesi ile tetiklenir.")]
+public UnityEvent<float> OnRightToLeftSwipe; 
 
-    [Tooltip("Yatay kaydırma: Soldan sağa kaydırma olayı. Swipe yüzdesi ile tetiklenir.")]
-    public UnityEvent<float> OnLeftToRightSwipe;
+[Tooltip("Yatay kaydırma: Soldan sağa kaydırma olayı. Swipe yüzdesi ile tetiklenir.")]
+public UnityEvent<float> OnLeftToRightSwipe; 
 
-    [Tooltip("Dikey kaydırma: Aşağıdan yukarı kaydırma olayı. Swipe yüzdesi ile tetiklenir.")]
-    public UnityEvent<float> OnDownToUpSwipe;
+[Tooltip("Dikey kaydırma: Aşağıdan yukarı kaydırma olayı. Swipe yüzdesi ile tetiklenir.")]
+public UnityEvent<float> OnDownToUpSwipe; 
 
-    [Tooltip("Dikey kaydırma: Yukarıdan aşağı kaydırma olayı. Swipe yüzdesi ile tetiklenir.")]
-    public UnityEvent<float> OnUpToDownSwipe;
+[Tooltip("Dikey kaydırma: Yukarıdan aşağı kaydırma olayı. Swipe yüzdesi ile tetiklenir.")]
+public UnityEvent<float> OnUpToDownSwipe; 
 
-    [Tooltip("Çift kaydırma olayı. Swipe türüne göre tetiklenir.")]
-    public UnityEvent<SwipeType> OnDoubleSwipe;
+[Tooltip("Çift kaydırma olayı. Swipe türüne göre tetiklenir.")]
+public UnityEvent<SwipeType> OnDoubleSwipe; 
 
-    [Tooltip("Kaydırma algılandığında olay. Swipe türü ve swipe yüzdesi ile tetiklenir.")]
-    public SwipeEvent OnSwipeDetected;
+[Tooltip("Kaydırma algılandığında olay. Swipe türü ve swipe yüzdesi ile tetiklenir.")]
+public SwipeEvent OnSwipeDetected;
 
-    [Header("Tap Events")]
-    [Tooltip("Tek dokunma olayı. Tek bir parmak ile yapılan dokunma için tetiklenir.")]
-    public UnityEvent OnSingleTap;
+[Header("Tap Events")]
+[Tooltip("Tek dokunma olayı. Tek bir parmak ile yapılan dokunma için tetiklenir.")]
+public UnityEvent OnSingleTap; 
 
-    [Tooltip("Çift dokunma olayı. İki parmak ile yapılan dokunma için tetiklenir.")]
-    public UnityEvent OnDoubleTap;
+[Tooltip("Çift dokunma olayı. İki parmak ile yapılan dokunma için tetiklenir.")]
+public UnityEvent OnDoubleTap; 
 
-    [Tooltip("Üçlü dokunma olayı. Üç parmak ile yapılan dokunma için tetiklenir.")]
-    public UnityEvent OnTripleTap;
+[Tooltip("Üçlü dokunma olayı. Üç parmak ile yapılan dokunma için tetiklenir.")]
+public UnityEvent OnTripleTap; 
 
-    [Tooltip("Uzun basma olayı. Uzun süreli dokunma için tetiklenir.")]
-    public UnityEvent OnLongPress;
+[Tooltip("Uzun basma olayı. Uzun süreli dokunma için tetiklenir.")]
+public UnityEvent OnLongPress; 
 
-    [Header("Multi-Touch Events")]
-    [Tooltip("İki parmak ile kaydırma olayı. İki parmakla yapılan kaydırma için tetiklenir.")]
-    public UnityEvent<SwipeType> OnTwoFingerSwipe;
+[Header("Multi-Touch Events")]
+[Tooltip("İki parmak ile kaydırma olayı. İki parmakla yapılan kaydırma için tetiklenir.")]
+public UnityEvent<SwipeType> OnTwoFingerSwipe; 
 
-    [Tooltip("Üç parmak ile kaydırma olayı. Üç parmakla yapılan kaydırma için tetiklenir.")]
-    public UnityEvent<SwipeType> OnThreeFingerSwipe;
+[Tooltip("Üç parmak ile kaydırma olayı. Üç parmakla yapılan kaydırma için tetiklenir.")]
+public UnityEvent<SwipeType> OnThreeFingerSwipe; 
 
-    [Tooltip("İki parmak ile tek dokunma olayı. İki parmakla yapılan tek dokunma için tetiklenir.")]
-    public UnityEvent OnTwoFingerTap;
+[Tooltip("İki parmak ile tek dokunma olayı. İki parmakla yapılan tek dokunma için tetiklenir.")]
+public UnityEvent OnTwoFingerTap; 
 
-    [Tooltip("Üç parmak ile tek dokunma olayı. Üç parmakla yapılan tek dokunma için tetiklenir.")]
-    public UnityEvent OnThreeFingerTap;
+[Tooltip("Üç parmak ile tek dokunma olayı. Üç parmakla yapılan tek dokunma için tetiklenir.")]
+public UnityEvent OnThreeFingerTap; 
 
-    [Tooltip("İki parmak ile uzun basma olayı. İki parmakla yapılan uzun basma için tetiklenir.")]
-    public UnityEvent OnTwoFingerLongPress;
+[Tooltip("İki parmak ile uzun basma olayı. İki parmakla yapılan uzun basma için tetiklenir.")]
+public UnityEvent OnTwoFingerLongPress; 
 
-    [Tooltip("Üç parmak ile uzun basma olayı. Üç parmakla yapılan uzun basma için tetiklenir.")]
-    public UnityEvent OnThreeFingerLongPress;
+[Tooltip("Üç parmak ile uzun basma olayı. Üç parmakla yapılan uzun basma için tetiklenir.")]
+public UnityEvent OnThreeFingerLongPress; 
 
-    private Vector2 startTouchPosition;
-    private Vector2 currentPosition;
-    private bool stopTouch;
+private Vector2 startTouchPosition;
+private Vector2 currentPosition;
+private bool stopTouch;
 
-    private float lastSwipeTime = -1f;
-    private SwipeType lastSwipeType;
+private float lastSwipeTime = -1f;
+private SwipeType lastSwipeType;
 
-    private int tapCount = 0;
-    private float lastTapTime = -1f;
-    private float tapTimeThreshold = 0.23f; // Birden fazla dokunmayı algılamak için gereken maksimum süre (saniye)
+private int tapCount = 0;
+private float lastTapTime = -1f;
+private float tapTimeThreshold = 0.23f; // Birden fazla dokunmayı algılamak için gereken maksimum süre (saniye)
 
-    private bool longPressDetected = false;
-    private float touchStartTime = -1f;
+private bool longPressDetected = false;
+private float touchStartTime = -1f;
 
 
     void Update()
@@ -294,6 +294,58 @@ public class NetTouchInput : MonoBehaviour
         return SwipeType.RightToLeft; // Default
     }
 
+    private bool IsValidSwipeStart(Vector2 startPosition, Vector2 direction)
+    {
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+
+        float horizontalThreshold = screenWidth * (horizontalEdgeThresholdPercentage / 100f);
+        float verticalThreshold = screenHeight * (verticalEdgeThresholdPercentage / 100f);
+
+        bool isVerticalSwipe = Mathf.Abs(direction.y) > Mathf.Abs(direction.x);
+
+        if (isVerticalSwipe)
+        {
+            // Dikey Kaydırma
+            if (direction.y < 0)
+            {
+                // Yukarıdan aşağıya kaydırma
+                return startPosition.y > screenHeight - verticalThreshold;
+            }
+            else
+            {
+                // Aşağıdan yukarıya kaydırma
+                return startPosition.y < verticalThreshold;
+            }
+        }
+        else
+        {
+            // Yatay Kaydırma
+            if (direction.x > 0)
+            {
+                // Soldan sağa kaydırma
+                return startPosition.x < horizontalThreshold;
+            }
+            else
+            {
+                // Sağdan sola kaydırma
+                return startPosition.x > screenWidth - horizontalThreshold;
+            }
+        }
+    }
+
+    private bool IsWithinEdgeThreshold(Vector2 position)
+    {
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+
+        float horizontalThreshold = screenWidth * (horizontalEdgeThresholdPercentage / 100f);
+        float verticalThreshold = screenHeight * (verticalEdgeThresholdPercentage / 100f);
+
+        return position.x < horizontalThreshold || position.x > screenWidth - horizontalThreshold ||
+                position.y < verticalThreshold || position.y > screenHeight - verticalThreshold;
+    }
+
     private void DetectSwipe()
     {
         if (stopTouch) return;
@@ -307,7 +359,7 @@ public class NetTouchInput : MonoBehaviour
         Vector2 direction = currentPosition - startTouchPosition;
         float swipePercentage = CalculateSwipePercentage(startTouchPosition, currentPosition);
 
-        if (!IsWithinEdgeThreshold(startTouchPosition)) return;
+        if (!IsValidSwipeStart(startTouchPosition, direction)) return;
 
         SwipeType swipeType = DetermineSwipeType(direction);
 
@@ -393,17 +445,7 @@ public class NetTouchInput : MonoBehaviour
         return false;
     }
 
-    private bool IsWithinEdgeThreshold(Vector2 position)
-    {
-        float screenWidth = Screen.width;
-        float screenHeight = Screen.height;
-
-        float horizontalThreshold = screenWidth * (horizontalEdgeThresholdPercentage / 100f);
-        float verticalThreshold = screenHeight * (verticalEdgeThresholdPercentage / 100f);
-
-        return position.x < horizontalThreshold || position.x > screenWidth - horizontalThreshold ||
-                position.y < verticalThreshold || position.y > screenHeight - verticalThreshold;
-    }
+    
 
     private float CalculateSwipePercentage(Vector2 start, Vector2 end)
     {
