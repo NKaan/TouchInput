@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-// Enum Tanýmý
+// Enum Tanımı
 public enum SwipeType
 {
     RightToLeft,
@@ -11,26 +11,27 @@ public enum SwipeType
     UpToDown
 }
 
-// UnityEvent Tanýmý
+// UnityEvent Tanımı
 [System.Serializable]
 public class SwipeEvent : UnityEvent<SwipeType, float> { }
 
 public class NetTouchInput : MonoBehaviour
 {
     [Header("Swipe Settings")]
-    [SerializeField] private float tapRange = 10f; // Maksimum dokunma mesafesi
-    [SerializeField] private float horizontalEdgeThresholdPercentage = 10f; // Ekran kenarýna minimum mesafe yatay olarak (yüzde)
-    [SerializeField] private float verticalEdgeThresholdPercentage = 10f; // Ekran kenarýna minimum mesafe dikey olarak (yüzde)
-    [SerializeField] private float swipeTimeThreshold = 0.3f; // Çift kaydýrma algýlamak için zaman penceresi
-    [SerializeField] private float longPressThreshold = 1f; // Uzun basmayý algýlamak için süre
-    [SerializeField] private bool calculateSwipeOnEnd = true; // Inspector üzerinden ayarlanabilir
+    [SerializeField] private float horizontalTapRangePercentage = 10f; // Yüzde olarak, örneğin %10
+    [SerializeField] private float verticalTapRangePercentage = 10f; // Yüzde olarak, örneğin %10
+    [SerializeField] private float horizontalEdgeThresholdPercentage = 10f; // Ekran kenarına minimum mesafe yatay olarak (yüzde)
+    [SerializeField] private float verticalEdgeThresholdPercentage = 10f; // Ekran kenarına minimum mesafe dikey olarak (yüzde)
+    [SerializeField] private float swipeTimeThreshold = 0.3f; // Çift kaydırma algılamak için zaman penceresi
+    [SerializeField] private float longPressThreshold = .7f; // Uzun basmayı algılamak için süre
+    [SerializeField] private bool calculateSwipeOnEnd = true;
 
     [Header("Swipe Events")]
     public UnityEvent<float> OnRightToLeftSwipe;
     public UnityEvent<float> OnLeftToRightSwipe;
     public UnityEvent<float> OnDownToUpSwipe;
     public UnityEvent<float> OnUpToDownSwipe;
-    public UnityEvent<SwipeType> OnDoubleSwipe; // Çift kaydýrma olayý
+    public UnityEvent<SwipeType> OnDoubleSwipe; // Çift kaydırma olayı
     public SwipeEvent OnSwipeDetected; // SwipeType ve yüzde ile olay
 
     [Header("Tap Events")]
@@ -56,7 +57,7 @@ public class NetTouchInput : MonoBehaviour
 
     private int tapCount = 0;
     private float lastTapTime = -1f;
-    private float tapTimeThreshold = 0.23f; // Birden fazla dokunmayý algýlamak için zaman penceresi
+    private float tapTimeThreshold = 0.23f; // Birden fazla dokunmayı algılamak için zaman penceresi
 
     private bool longPressDetected = false;
     private float touchStartTime = -1f;
@@ -72,7 +73,7 @@ public class NetTouchInput : MonoBehaviour
             HandleMouseInput();
         }
 
-        // Multi-touch olaylarýný kontrol edin ve eventleri tetikleyin
+        // Multi-touch olaylarını kontrol edin ve eventleri tetikleyin
         CheckMultiTouchEvents();
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -83,7 +84,7 @@ public class NetTouchInput : MonoBehaviour
 
     private void CheckMultiTouchEvents()
     {
-        // Ýki parmak kaydýrma
+        // İki parmak kaydırma
         if (Input.touchCount == 2)
         {
             SwipeType swipeType = DetermineSwipeType(currentPosition - startTouchPosition);
@@ -96,7 +97,7 @@ public class NetTouchInput : MonoBehaviour
             }
         }
 
-        // Üç parmak kaydýrma
+        // Üç parmak kaydırma
         if (Input.touchCount == 3)
         {
             SwipeType swipeType = DetermineSwipeType(currentPosition - startTouchPosition);
@@ -109,7 +110,7 @@ public class NetTouchInput : MonoBehaviour
             }
         }
 
-        // Ýki parmak dokunma
+        // İki parmak dokunma
         if (Input.touchCount == 2 && tapCount == 1)
         {
             OnTwoFingerTap?.Invoke();
@@ -121,7 +122,7 @@ public class NetTouchInput : MonoBehaviour
             OnThreeFingerTap?.Invoke();
         }
 
-        // Ýki parmak uzun basma
+        // İki parmak uzun basma
         if (Input.touchCount == 2 && LongPress(longPressThreshold))
         {
             OnTwoFingerLongPress?.Invoke();
@@ -154,7 +155,7 @@ public class NetTouchInput : MonoBehaviour
                 }
                 else
                 {
-                    // Kaydýrma iþlemi için geçici bir iþaretçi ayarla
+                    // Kaydırma işlemi için geçici bir işaretçi ayarla
                     stopTouch = false;
                 }
                 if (Time.time - touchStartTime >= longPressThreshold && !longPressDetected)
@@ -193,7 +194,7 @@ public class NetTouchInput : MonoBehaviour
             }
             else
             {
-                // Kaydýrma iþlemi için geçici bir iþaretçi ayarla
+                // Kaydırma işlemi için geçici bir işaretçi ayarla
                 stopTouch = false;
             }
             if (Time.time - touchStartTime >= longPressThreshold && !longPressDetected)
@@ -212,12 +213,53 @@ public class NetTouchInput : MonoBehaviour
         }
     }
 
+    private SwipeType DetermineSwipeType(Vector2 direction)
+    {
+        float horizontalMovement = direction.x;
+        float verticalMovement = direction.y;
+        float horizontalAbs = Mathf.Abs(horizontalMovement);
+        float verticalAbs = Mathf.Abs(verticalMovement);
+
+        float horizontalTapRange = GetHorizontalTapRange();
+        float verticalTapRange = GetVerticalTapRange();
+
+        if (horizontalAbs > verticalAbs)
+        {
+            // Horizontal Swipe
+            if (horizontalMovement > horizontalTapRange)
+            {
+                return SwipeType.LeftToRight;
+            }
+            if (horizontalMovement < -horizontalTapRange)
+            {
+                return SwipeType.RightToLeft;
+            }
+        }
+        else if (verticalAbs > horizontalAbs)
+        {
+            // Vertical Swipe
+            if (verticalMovement > verticalTapRange)
+            {
+                return SwipeType.DownToUp;
+            }
+            if (verticalMovement < -verticalTapRange)
+            {
+                return SwipeType.UpToDown;
+            }
+        }
+
+        return SwipeType.RightToLeft; // Default
+    }
+
     private void DetectSwipe()
     {
         if (stopTouch) return;
 
         float distance = (currentPosition - startTouchPosition).magnitude;
-        if (distance <= tapRange) return;
+        float horizontalTapRange = GetHorizontalTapRange();
+        float verticalTapRange = GetVerticalTapRange();
+
+        if (distance <= horizontalTapRange || distance <= verticalTapRange) return;
 
         Vector2 direction = currentPosition - startTouchPosition;
         float swipePercentage = CalculateSwipePercentage(startTouchPosition, currentPosition);
@@ -228,7 +270,6 @@ public class NetTouchInput : MonoBehaviour
 
         if (IsDoubleSwipe(swipeType))
         {
-            Debug.Log($"Double Swipe Detected: {swipeType}");
             OnDoubleSwipe?.Invoke(swipeType);
         }
         else
@@ -268,17 +309,26 @@ public class NetTouchInput : MonoBehaviour
         {
             CancelInvoke("CheckSingleTap");
             CancelInvoke("CheckDoubleTap");
-            Debug.Log("Triple Tap Detected");
             OnTripleTap?.Invoke();
             tapCount = 0;
         }
+    }
+
+    // Ekran boyutlarına göre yüzdesel aralıkları hesapla
+    private float GetHorizontalTapRange()
+    {
+        return Screen.width * (horizontalTapRangePercentage / 100f);
+    }
+
+    private float GetVerticalTapRange()
+    {
+        return Screen.height * (verticalTapRangePercentage / 100f);
     }
 
     private void CheckSingleTap()
     {
         if (tapCount == 1)
         {
-            Debug.Log("Single Tap Detected");
             OnSingleTap?.Invoke();
         }
     }
@@ -287,7 +337,6 @@ public class NetTouchInput : MonoBehaviour
     {
         if (tapCount == 2)
         {
-            Debug.Log("Double Tap Detected");
             OnDoubleTap?.Invoke();
         }
     }
@@ -313,45 +362,6 @@ public class NetTouchInput : MonoBehaviour
                 position.y < verticalThreshold || position.y > screenHeight - verticalThreshold;
     }
 
-    private SwipeType DetermineSwipeType(Vector2 direction)
-    {
-        float horizontalMovement = direction.x;
-        float verticalMovement = direction.y;
-        float horizontalAbs = Mathf.Abs(horizontalMovement);
-        float verticalAbs = Mathf.Abs(verticalMovement);
-
-        if (horizontalAbs > verticalAbs)
-        {
-            // Horizontal Swipe
-            if (horizontalMovement > tapRange)
-            {
-                Debug.Log("Swipe Detected: LeftToRight");
-                return SwipeType.LeftToRight;
-            }
-            if (horizontalMovement < -tapRange)
-            {
-                Debug.Log("Swipe Detected: RightToLeft");
-                return SwipeType.RightToLeft;
-            }
-        }
-        else if (verticalAbs > horizontalAbs)
-        {
-            // Vertical Swipe
-            if (verticalMovement > tapRange)
-            {
-                Debug.Log("Swipe Detected: DownToUp");
-                return SwipeType.DownToUp;
-            }
-            if (verticalMovement < -tapRange)
-            {
-                Debug.Log("Swipe Detected: UpToDown");
-                return SwipeType.UpToDown;
-            }
-        }
-
-        return SwipeType.RightToLeft; // Default
-    }
-
     private float CalculateSwipePercentage(Vector2 start, Vector2 end)
     {
         float distanceX = Mathf.Abs(end.x - start.x);
@@ -359,9 +369,6 @@ public class NetTouchInput : MonoBehaviour
 
         float percentageX = distanceX / Screen.width * 100f;
         float percentageY = distanceY / Screen.height * 100f;
-
-        Debug.Log($"Distance X: {distanceX}, Distance Y: {distanceY}");
-        Debug.Log($"Percentage X: {percentageX}, Percentage Y: {percentageY}");
 
         return Mathf.Max(percentageX, percentageY);
     }
@@ -371,19 +378,15 @@ public class NetTouchInput : MonoBehaviour
         switch (swipeType)
         {
             case SwipeType.RightToLeft:
-                Debug.Log("Trigger Event: RightToLeft Swipe " + swipePercentage);
                 OnRightToLeftSwipe?.Invoke(swipePercentage);
                 break;
             case SwipeType.LeftToRight:
-                Debug.Log("Trigger Event: LeftToRight Swipe");
                 OnLeftToRightSwipe?.Invoke(swipePercentage);
                 break;
             case SwipeType.DownToUp:
-                Debug.Log("Trigger Event: DownToUp Swipe");
                 OnDownToUpSwipe?.Invoke(swipePercentage);
                 break;
             case SwipeType.UpToDown:
-                Debug.Log("Trigger Event: UpToDown Swipe");
                 OnUpToDownSwipe?.Invoke(swipePercentage);
                 break;
         }
